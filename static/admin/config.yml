@@ -2,6 +2,7 @@ backend:
   name: github
   repo: spacekek/usac_recepten
   branch: main
+  auth_endpoint: https://github.com/login/oauth/authorize
 
 media_folder: "static/uploads"
 public_folder: "/uploads"
