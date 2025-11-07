@@ -1,7 +1,7 @@
 +++
 title = 'Custard Pudding'
 date = 2025-11-07T20:36:37+01:00
-draft = true
+draft = false
 description = 'Custard Pudding recipe'
 tags = ['Vegetarian', 'Dessert', 'Pudding']
 +++

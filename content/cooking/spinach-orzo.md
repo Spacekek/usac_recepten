@@ -1,7 +1,7 @@
 +++
 title = 'Spinach Orzo'
 date = 2025-11-07T20:36:08+01:00
-draft = true
+draft = false
 description = 'Creamy orzo with spinach and mushrooms'
 tags = ['Vegetarian', 'Vegan possible']
 +++
