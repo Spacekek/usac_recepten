@@ -1,4 +1,4 @@
-baseURL = 'https://example.org/'
+baseURL = 'https://spacekek.github.io/usac_recepten/'
 languageCode = 'en-us'
 title = 'Usac Recipes'
 theme = "recipes"
