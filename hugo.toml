@@ -2,3 +2,6 @@ baseURL = 'https://example.org/'
 languageCode = 'en-us'
 title = 'Usac Recipes'
 theme = "recipes"
+[caches]
+  [caches.images]
+    dir = ':cacheDir/images'
