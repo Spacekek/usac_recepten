@@ -2,6 +2,7 @@ backend:
   name: github
   repo: spacekek/usac_recepten
   branch: main
+  client_id: Ov23licCxvFs1Igm8Vds
 media_folder: "static/uploads"
 public_folder: "/uploads"
 
