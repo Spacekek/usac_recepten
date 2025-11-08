@@ -1,8 +1,6 @@
 backend:
-  name: github
-  repo: spacekek/usac_recepten
+  name: git-gateway
   branch: main
-  client_id: Ov23licCxvFs1Igm8Vds
 media_folder: "static/uploads"
 public_folder: "/uploads"
 
@@ -17,6 +15,8 @@ collections:
       - { label: "Draft", name: "draft", widget: "boolean"}
       - { label: "Description", name: "description", widget: "string" }
       - { label: "Tags", name: "tags", widget: "list" }
+      - { label: "Prep Time (minutes)", name: "prep_time", widget: "integer" }
+      - { label: "Cook Time (minutes)", name: "cook_time", widget: "integer" }
       - { label: "Body", name: "body", widget: "markdown" }
   - name: "baking"
     label: "Baking Recipes"
@@ -28,4 +28,6 @@ collections:
       - { label: "Draft", name: "draft", widget: "boolean"}
       - { label: "Description", name: "description", widget: "string" }
       - { label: "Tags", name: "tags", widget: "list" }
+      - { label: "Prep Time (minutes)", name: "prep_time", widget: "integer" }
+      - { label: "Baking Time (minutes)", name: "cook_time", widget: "integer" }
       - { label: "Body", name: "body", widget: "markdown" }
