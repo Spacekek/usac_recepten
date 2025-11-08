@@ -306,3 +306,11 @@ window.updateServings = function() {
         item.textContent = scaledText;
     });
 };
+
+// Reset servings input to original value on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const servingsInput = document.getElementById('servingsInput');
+    if (servingsInput && window.originalServings) {
+        servingsInput.value = window.originalServings;
+    }
+});
