@@ -16,8 +16,8 @@ collections:
       - { label: "Draft", name: "draft", widget: "boolean"}
       - { label: "Description", name: "description", widget: "string" }
       - { label: "Tags", name: "tags", widget: "list" }
-      - { label: "Prep Time (minutes)", name: "prep_time", widget: "integer" }
-      - { label: "Cook Time (minutes)", name: "cook_time", widget: "integer" }
+      - { label: "Prep Time (minutes)", name: "prep_time", widget: "number" }
+      - { label: "Cook Time (minutes)", name: "cook_time", widget: "number" }
       - { label: "Body", name: "body", widget: "markdown" }
   - name: "baking"
     label: "Baking Recipes"
@@ -29,6 +29,6 @@ collections:
       - { label: "Draft", name: "draft", widget: "boolean"}
       - { label: "Description", name: "description", widget: "string" }
       - { label: "Tags", name: "tags", widget: "list" }
-      - { label: "Prep Time (minutes)", name: "prep_time", widget: "integer" }
-      - { label: "Baking Time (minutes)", name: "cook_time", widget: "integer" }
+      - { label: "Prep Time (minutes)", name: "prep_time", widget: "number" }
+      - { label: "Baking Time (minutes)", name: "cook_time", widget: "number" }
       - { label: "Body", name: "body", widget: "markdown" }
