@@ -1,2 +1,17 @@
-<h1>{{ site.Title }}</h1>
-{{ partial "menu.html" (dict "menuID" "main" "page" .) }}
+<header class="site-header" role="banner">
+    <div class="header-inner">
+        <div class="site-branding">
+            <h1 class="site-title">
+                <a href="/" class="site-title-link">{{ .Site.Title }}</a>
+            </h1>
+        </div>
+        <nav class="site-actions" aria-label="Site actions">
+            <a class="admin-btn" href="/admin" role="button" aria-label="Open admin">Admin</a>
+        </nav>
+    </div>
+    <nav class="site-navigation" aria-label="Main navigation">
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="/baking/">Baking</a>
+        <a class="nav-link" href="/cooking/">Cooking</a>
+    </nav>
+</header>

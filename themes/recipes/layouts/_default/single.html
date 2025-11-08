@@ -1,14 +1,90 @@
 {{ define "main" }}
+  <nav aria-label="Breadcrumb">
+    {{ partial "breadcrumbs.html" . }}
+  </nav>
+  
+  {{ with .Params.image }}
+    <div class="recipe-image">
+      <img src="{{ . | relURL }}" alt="{{ $.Title }}">
+    </div>
+  {{ end }}
+  
   <h1>{{ .Title }}</h1>
 
   {{ $dateMachine := .Date | time.Format "2006-01-02T15:04:05-07:00" }}
   {{ $dateHuman := .Date | time.Format ":date_long" }}
   <time datetime="{{ $dateMachine }}">{{ $dateHuman }}</time>
-  <article>
+
+  <!-- Recipe metadata -->
+  {{ if or .Params.servings .Params.prep_time .Params.cook_time .Params.price_per_person }}
+  <div class="recipe-meta">
+    {{ with .Params.servings }}
+      <span class="meta-item">
+        <span class="meta-label">🍽️ Servings:</span>
+        <input type="number" 
+               id="servingsInput" 
+               class="servings-input" 
+               value="{{ . }}" 
+               min="1" 
+               max="99"
+               oninput="updateServings()"
+               onchange="updateServings()">
+      </span>
+    {{ end }}
+    {{ with .Params.prep_time }}
+      <span class="meta-item">
+        <span class="meta-label">⏱️ Prep:</span>
+        <span class="meta-value">{{ . }} min</span>
+      </span>
+    {{ end }}
+    {{ with .Params.cook_time }}
+      <span class="meta-item">
+        <span class="meta-label">🔥 Cook:</span>
+        <span class="meta-value">{{ . }} min</span>
+      </span>
+    {{ end }}
+    {{ with .Params.price_per_person }}
+      <span class="meta-item">
+        <span class="meta-label">💰 Price:</span>
+        <span class="meta-value">€{{ lang.FormatNumber 2 . }}/person</span>
+      </span>
+    {{ end }}
+  </div>
+  {{ end }}
+
+  <article data-servings="{{ .Params.servings | default 1 }}">
     {{.Content}}
   </article>
-  <p class="debug">
-    Page generated with <code>single.html</code>
-  </p>
-  {{ partial "terms.html" (dict "taxonomy" "tags" "page" .) }}
+  
+  <!-- Display tags by category -->
+  {{ $params := .Params }}
+  {{ $hasAnyTags := false }}
+  {{ range $category, $tags := $params }}
+    {{ if and (ne $category "title") (ne $category "date") (ne $category "draft") (ne $category "description") (ne $category "image") (ne $category "servings") (ne $category "prep_time") (ne $category "cook_time") (ne $category "price_per_person") }}
+      {{ if reflect.IsSlice $tags }}
+        {{ $hasAnyTags = true }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+  
+  {{ if $hasAnyTags }}
+  <div class="recipe-categories">
+    {{ range $category, $tags := $params }}
+      {{ if and (ne $category "title") (ne $category "date") (ne $category "draft") (ne $category "description") (ne $category "image") (ne $category "servings") (ne $category "prep_time") (ne $category "cook_time") (ne $category "price_per_person") }}
+        {{ if reflect.IsSlice $tags }}
+          <div class="category-group">
+            <strong>{{ $category | humanize | title }}:</strong>
+            {{ range $tags }}
+              <span class="recipe-tag">{{ . | humanize | title }}</span>
+            {{ end }}
+          </div>
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  </div>
+  {{ end }}
+  
+  <script>
+    window.originalServings = {{ .Params.servings | default 1 }};
+  </script>
 {{ end }}

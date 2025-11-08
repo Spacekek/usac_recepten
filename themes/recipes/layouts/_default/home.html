@@ -1,7 +1,15 @@
 {{ define "main" }}
-  {{ .Content }}
-  {{ range site.RegularPages }}
-    <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
-    {{ .Summary }}
-  {{ end }}
+  <div class="home-intro">
+    {{.Content}}
+  </div>
+  
+  <div class="category-cards">
+    {{ range .Site.Sections }}
+      <div class="category-card">
+        <h2>{{ .Title }}</h2>
+        <p>Explore recipes in the {{ .Title | lower }} category.</p>
+        <a href="{{ .RelPermalink }}" class="btn">View Recipes</a>
+      </div>
+    {{ end }}
+  </div>
 {{ end }}

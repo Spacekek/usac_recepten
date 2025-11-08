@@ -1,16 +1,190 @@
 {{define "main"}}
+<nav aria-label="Breadcrumb">
+    {{ partial "breadcrumbs.html" . }}
+</nav>
+
 {{.Content}}
-<ul>
+
+<!-- Search bar and sorting controls -->
+<div class="controls-container">
+    <div class="search-container">
+        <input type="text" class="search-input" id="recipeSearch" placeholder="Search recipes by title or tags...">
+    </div>
+    
+    <div class="sort-container">
+        <label for="sortBy">Sort by:</label>
+        <select id="sortBy" class="sort-select">
+            <option value="title">Title (A-Z)</option>
+            <option value="prep_time">Prep Time</option>
+            <option value="cook_time">Cook/Bake Time</option>
+            <option value="total_time">Total Time</option>
+            <option value="price">Price (Low to High)</option>
+        </select>
+    </div>
+    
+    <button id="resetFilters" class="reset-btn">Reset All Filters</button>
+</div>
+
+<!-- Results counter -->
+<div class="results-counter">
+    Showing <span id="visibleCount">0</span> of <span id="totalCount">0</span> recipes
+</div>
+
+<!-- Filter ranges -->
+<div class="filter-ranges">
+    <div class="filter-group">
+        <label>Prep Time</label>
+        <div class="filter-inputs">
+            <div class="range-slider-container">
+                <div class="range-values">
+                    <span>Min: <span id="prepMinVal">0</span> min</span>
+                    <span>Max: <span id="prepMaxVal">60</span> min</span>
+                </div>
+                <input type="range" id="prepMin" class="filter-input" min="0" max="60" value="0">
+                <span class="filter-separator">to</span>
+                <input type="range" id="prepMax" class="filter-input" min="0" max="60" value="60">
+            </div>
+        </div>
+    </div>
+    
+    <div class="filter-group">
+        <label>Cook/Bake Time</label>
+        <div class="filter-inputs">
+            <div class="range-slider-container">
+                <div class="range-values">
+                    <span>Min: <span id="cookMinVal">0</span> min</span>
+                    <span>Max: <span id="cookMaxVal">120</span> min</span>
+                </div>
+                <input type="range" id="cookMin" class="filter-input" min="0" max="120" value="0">
+                <span class="filter-separator">to</span>
+                <input type="range" id="cookMax" class="filter-input" min="0" max="120" value="120">
+            </div>
+        </div>
+    </div>
+    
+    <div class="filter-group">
+        <label>Total Time</label>
+        <div class="filter-inputs">
+            <div class="range-slider-container">
+                <div class="range-values">
+                    <span>Min: <span id="totalMinVal">0</span> min</span>
+                    <span>Max: <span id="totalMaxVal">180</span> min</span>
+                </div>
+                <input type="range" id="totalMin" class="filter-input" min="0" max="180" value="0">
+                <span class="filter-separator">to</span>
+                <input type="range" id="totalMax" class="filter-input" min="0" max="180" value="180">
+            </div>
+        </div>
+    </div>
+    
+    <div class="filter-group">
+        <label>Price per Person</label>
+        <div class="filter-inputs">
+            <div class="range-slider-container">
+                <div class="range-values">
+                    <span>Min: €<span id="priceMinVal">0</span></span>
+                    <span>Max: €<span id="priceMaxVal">20</span></span>
+                </div>
+                <input type="range" id="priceMin" class="filter-input" min="0" max="20" step="0.5" value="0">
+                <span class="filter-separator">to</span>
+                <input type="range" id="priceMax" class="filter-input" min="0" max="20" step="0.5" value="20">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tag filters with dynamic categories -->
+{{ $tagCategories := dict }}
+
+{{ range .Pages }}
+    {{ $params := .Params }}
+    {{ range $category, $tags := $params }}
+        {{ if and (ne $category "title") (ne $category "date") (ne $category "draft") (ne $category "description") (ne $category "image") (ne $category "servings") (ne $category "prep_time") (ne $category "cook_time") (ne $category "price_per_person") }}
+            {{ if reflect.IsSlice $tags }}
+                {{ $existingTags := index $tagCategories $category }}
+                {{ if $existingTags }}
+                    {{ $tagCategories = merge $tagCategories (dict $category (union $existingTags $tags)) }}
+                {{ else }}
+                    {{ $tagCategories = merge $tagCategories (dict $category $tags) }}
+                {{ end }}
+            {{ end }}
+        {{ end }}
+    {{ end }}
+{{ end }}
+
+{{ if gt (len $tagCategories) 0 }}
+<div class="tag-filters-container">
+    <h3>Filter by Tags <span class="tag-hint">(click multiple to combine)</span></h3>
+    
+    {{ range $categoryName, $tags := $tagCategories }}
+        {{ $uniqueTags := $tags | uniq | sort }}
+        <div class="tag-category">
+            <h4>{{ $categoryName | humanize | title }}</h4>
+            <div class="tag-filters">
+                {{ range $uniqueTags }}
+                    <span class="tag-filter" data-tag="{{ . | urlize }}" data-category="{{ $categoryName }}">{{ . | humanize | title }}</span>
+                {{ end }}
+            </div>
+        </div>
+    {{ end }}
+    
+    <!-- Active filters display -->
+    <div id="activeFilters" class="active-filters" style="display: none;">
+        <strong>Active filters:</strong>
+        <div id="activeFiltersList"></div>
+    </div>
+</div>
+{{ end }}
+
+<!-- Recipe list -->
+<ul class="recipe-list" id="recipeList">
 {{range .Pages}}
-    <li>
-        <a href="{{.Permalink}}">
-            {{.LinkTitle}}
-        </a>
+    {{ $allTags := slice }}
+    {{ $params := .Params }}
+    {{ range $category, $tags := $params }}
+        {{ if and (ne $category "title") (ne $category "date") (ne $category "draft") (ne $category "description") (ne $category "image") (ne $category "servings") (ne $category "prep_time") (ne $category "cook_time") (ne $category "price_per_person") }}
+            {{ if reflect.IsSlice $tags }}
+                {{ range $tags }}
+                    {{ $allTags = $allTags | append (. | urlize) }}
+                {{ end }}
+            {{ end }}
+        {{ end }}
+    {{ end }}
+    {{ $prepTime := .Params.prep_time | default 0 }}
+    {{ $cookTime := .Params.cook_time | default 0 }}
+    {{ $totalTime := add $prepTime $cookTime }}
+    {{ $price := .Params.price_per_person | default 0 }}
+    <li class="recipe-item" 
+        data-title="{{ .LinkTitle | lower }}" 
+        data-tags="{{ delimit $allTags "," }}"
+        data-prep="{{ $prepTime }}"
+        data-cook="{{ $cookTime }}"
+        data-total="{{ $totalTime }}"
+        data-price="{{ $price }}">
+        <div class="recipe-item-header">
+            <a href="{{.RelPermalink}}" class="recipe-title-link">
+                {{.LinkTitle}}
+            </a>
+            <div class="recipe-meta-inline">
+                {{ if gt $prepTime 0 }}
+                    <span class="meta-badge" title="Prep time">⏱️ {{ $prepTime }}m</span>
+                {{ end }}
+                {{ if gt $cookTime 0 }}
+                    <span class="meta-badge" title="Cook/Bake time">🔥 {{ $cookTime }}m</span>
+                {{ end }}
+                {{ if gt $price 0 }}
+                    <span class="meta-badge" title="Price per person">💰 €{{ lang.FormatNumber 2 $price }}</span>
+                {{ end }}
+            </div>
+        </div>
+        {{ if gt (len $allTags) 0 }}
+        <div class="recipe-tags">
+            {{ range $allTags }}
+                <span class="recipe-tag">{{ . | humanize | title }}</span>
+            {{ end }}
+        </div>
+        {{ end }}
     </li>
 {{end}}
 </ul>
-<p class="debug">
-    Page generated with <code>list.html</code>
-</p>
 {{end}}
-

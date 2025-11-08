@@ -1,7 +1,12 @@
-baseURL = 'https://spacekek.github.io/usac_recepten/'
+baseURL = 'https://usac-recipes.netlify.app/'
 languageCode = 'en-us'
 title = 'Usac Recipes'
 theme = "recipes"
+
 [caches]
   [caches.images]
     dir = ':cacheDir/images'
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"

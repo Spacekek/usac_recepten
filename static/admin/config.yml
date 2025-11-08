@@ -15,9 +15,52 @@ collections:
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Draft", name: "draft", widget: "boolean"}
       - { label: "Description", name: "description", widget: "string" }
-      - { label: "Tags", name: "tags", widget: "list" }
-      - { label: "Prep Time (minutes)", name: "prep_time", widget: "number" }
-      - { label: "Cook Time (minutes)", name: "cook_time", widget: "number" }
+      - { label: "Featured Image", name: "image", widget: "image", required: false }
+      - label: "Dietary"
+        name: "dietary"
+        widget: "select"
+        multiple: true
+        required: false
+        options:
+          - { label: "Vegetarian", value: "vegetarian" }
+          - { label: "Vegan", value: "vegan" }
+          - { label: "Vegan Possible", value: "vegan-possible" }
+          - { label: "Gluten-Free", value: "gluten-free" }
+          - { label: "Dairy-Free", value: "dairy-free" }
+      - label: "Method"
+        name: "method"
+        widget: "select"
+        multiple: true
+        required: false
+        options:
+          - { label: "Quick (< 30 min)", value: "quick" }
+          - { label: "One Pot", value: "one-pot" }
+          - { label: "Oven", value: "oven" }
+          - { label: "Make Ahead", value: "make-ahead" }
+          - { label: "Easy", value: "easy" }
+          - { label: "Advanced", value: "advanced" }
+      - label: "Meal Type"
+        name: "meal_type"
+        widget: "select"
+        multiple: true
+        required: false
+        options:
+          - { label: "Party Food", value: "party-food" }
+          - { label: "Comfort Food", value: "comfort-food" }
+      - label: "Characteristics"
+        name: "characteristics"
+        widget: "select"
+        multiple: true
+        required: false
+        options:
+          - { label: "Budget Friendly", value: "budget-friendly" }
+          - { label: "Creamy", value: "creamy" }
+          - { label: "Spicy", value: "spicy" }
+          - { label: "Healthy", value: "healthy" }
+      - { label: "Servings", name: "servings", widget: "number", default: 4, min: 1, required: false }
+      - { label: "Prep Time (minutes)", name: "prep_time", widget: "number", required: false }
+      - { label: "Cook Time (minutes)", name: "cook_time", widget: "number", required: false }
+      - { label: "Price Per Person (€)", name: "price_per_person", widget: "number", value_type: "float", step: 0.5, required: false }
       - { label: "Body", name: "body", widget: "markdown" }
   - name: "baking"
     label: "Baking Recipes"
@@ -28,7 +71,47 @@ collections:
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Draft", name: "draft", widget: "boolean"}
       - { label: "Description", name: "description", widget: "string" }
-      - { label: "Tags", name: "tags", widget: "list" }
-      - { label: "Prep Time (minutes)", name: "prep_time", widget: "number" }
-      - { label: "Baking Time (minutes)", name: "cook_time", widget: "number" }
+      - { label: "Featured Image", name: "image", widget: "image", required: false }
+      - label: "Dietary"
+        name: "dietary"
+        widget: "select"
+        multiple: true
+        required: false
+        options:
+          - { label: "Vegetarian", value: "vegetarian" }
+          - { label: "Vegan", value: "vegan" }
+          - { label: "Vegan Possible", value: "vegan-possible" }
+          - { label: "Gluten-Free", value: "gluten-free" }
+          - { label: "Dairy-Free", value: "dairy-free" }
+      - label: "Method"
+        name: "method"
+        widget: "select"
+        multiple: true
+        required: false
+        options:
+          - { label: "Quick (< 30 min)", value: "quick" }
+          - { label: "Oven", value: "oven" }
+          - { label: "Make Ahead", value: "make-ahead" }
+          - { label: "Easy", value: "easy" }
+          - { label: "Advanced", value: "advanced" }
+      - label: "Meal Type"
+        name: "meal_type"
+        widget: "select"
+        multiple: true
+        required: false
+        options:
+          - { label: "Dessert", value: "dessert" }
+          - { label: "Cold Dessert", value: "cold-dessert" }
+          - { label: "Special Occasion", value: "special-occasion" }
+      - label: "Characteristics"
+        name: "characteristics"
+        widget: "select"
+        multiple: true
+        required: false
+        options:
+          - { label: "Budget Friendly", value: "budget-friendly" }
+      - { label: "Servings", name: "servings", widget: "number", default: 4, min: 1, required: false }
+      - { label: "Prep Time (minutes)", name: "prep_time", widget: "number", required: false }
+      - { label: "Baking Time (minutes)", name: "cook_time", widget: "number", required: false }
+      - { label: "Price Per Person (€)", name: "price_per_person", widget: "number", value_type: "float", step: 0.5, required: false }
       - { label: "Body", name: "body", widget: "markdown" }
