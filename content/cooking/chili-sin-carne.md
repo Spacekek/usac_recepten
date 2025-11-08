@@ -1,7 +1,7 @@
 ---
 title: Chili sin carne
 date: 2025-11-08T10:46:00.000+01:00
-draft: true
+draft: false
 description: Filling chili
 tags:
   - Vegetarian
