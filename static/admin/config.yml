@@ -2,19 +2,29 @@ backend:
   name: github
   repo: spacekek/usac_recepten
   branch: main
-  auth_endpoint: https://github.com/login/oauth/authorize
-
 media_folder: "static/uploads"
 public_folder: "/uploads"
 
 collections:
-  - name: "recipes"
-    label: "Recipes"
-    folder: "content"
+  - name: "cooking"
+    label: "Cooking Recipes"
+    folder: "content/cooking"
     create: true
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Draft", name: "draft", widget: "boolean"}
+      - { label: "Description", name: "description", widget: "string" }
+      - { label: "Tags", name: "tags", widget: "list" }
+      - { label: "Body", name: "body", widget: "markdown" }
+  - name: "baking"
+    label: "Baking Recipes"
+    folder: "content/baking"
+    create: true
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Draft", name: "draft", widget: "boolean"}
       - { label: "Description", name: "description", widget: "string" }
       - { label: "Tags", name: "tags", widget: "list" }
       - { label: "Body", name: "body", widget: "markdown" }
