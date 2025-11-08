@@ -6,6 +6,9 @@ media_folder: "static/uploads"
 public_folder: "/uploads"
 
 collections:
+  - name: "pages"
+    label: "Pages"
+    folder: "content"
   - name: "cooking"
     label: "Cooking Recipes"
     folder: "content/cooking"
