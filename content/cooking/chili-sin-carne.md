@@ -3,9 +3,9 @@ title: Chili sin carne
 date: 2025-11-08T10:46:00.000+01:00
 draft: false
 description: Filling chili
-dietary: [vegetarian, vegan-possible]
+dietary: [vegetarian, vegan-possible, gluten-free, nut-free, soy-free]
 method: [one-pot]
-characteristics: [budget-friendly]
+characteristics: [hearty, spicy]
 prep_time: 15
 cook_time: 20
 price_per_person: 2.50
