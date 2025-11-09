@@ -1,15 +1,21 @@
-+++
-title = 'Spinach Orzo'
-date = 2025-11-07T20:36:08+01:00
-draft = false
-description = 'Creamy orzo with spinach and mushrooms'
-dietary = ['vegetarian', 'vegan-possible', 'nut-free', 'soy-free']
-characteristics = ['creamy']
-prep_time = 10
-cook_time = 20
-price_per_person = 3.50
-servings = 4
-+++
+---
+title: Spinach Orzo
+date: 2025-11-07T19:36:08.000Z
+draft: false
+description: Creamy orzo with spinach and mushrooms
+dietary:
+  - vegetarian
+  - vegan-possible
+  - nut-free
+  - soy-free
+  - gluten-free
+characteristics:
+  - creamy
+servings: 4
+prep_time: 10
+cook_time: 20
+price_per_person: 3.5
+---
 
 # Spinach Orzo
 ## Ingredients:
