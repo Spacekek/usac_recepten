@@ -3,6 +3,7 @@ title: Pumpkin Risotto
 date: 2025-11-12T17:39:00.000+01:00
 draft: false
 description: Creamy cheesy pumpkin risotto
+image: /uploads/img_20251112_170957_784.jpg
 dietary:
   - vegetarian
   - nut-free
