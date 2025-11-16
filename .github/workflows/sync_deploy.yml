@@ -1,0 +1,42 @@
+name: Rebase do-not-use
+on:
+  schedule:
+    - cron: '0 0 */3 * *'  # Every 3 days at midnight
+  workflow_dispatch:       # Allows manual trigger
+jobs:
+  build:
+    name: Rebase branch do-not-use on main
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: do-not-use
+          fetch-depth: 0  # Fetch all history for all branches and tags
+      - name: Set up Git user
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Check if update is needed
+        id: check
+        run: |
+          git fetch origin main
+          # Compare the tree (content) of do-not-use and main
+          if [ "$(git rev-parse HEAD^{tree})" = "$(git rev-parse origin/main^{tree})" ]; then
+            echo "do-not-use already has the same content as main. Skipping update."
+            echo "needs_update=false" >> $GITHUB_OUTPUT
+          else
+            echo "main has new changes. Will update do-not-use."
+            echo "needs_update=true" >> $GITHUB_OUTPUT
+          fi
+      - name: Update do-not-use to match main
+        if: steps.check.outputs.needs_update == 'true'
+        run: |
+          git reset --hard origin/main
+      - name: Push updated branch
+        if: steps.check.outputs.needs_update == 'true'
+        run: |
+          git push origin do-not-use --force
+          echo "do-not-use updated and pushed. Netlify will deploy."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
