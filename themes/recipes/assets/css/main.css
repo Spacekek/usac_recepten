@@ -304,6 +304,36 @@ p.debug {
     border-color: var(--dark-red);
 }
 
+/* Filter toggle button (mobile only) */
+.filter-toggle {
+    display: none;
+    width: 100%;
+    padding: 1rem;
+    margin: 1rem 0.5rem;
+    background: var(--dark-red);
+    color: var(--dark-red-contrast);
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.filter-toggle:hover {
+    background: var(--accent-red);
+}
+
+.filter-toggle:active {
+    transform: scale(0.98);
+}
+
+@media (max-width: 768px) {
+    .filter-toggle {
+        display: block;
+    }
+}
+
 /* Active filters display */
 .active-filters {
     margin-top: 1.5rem;

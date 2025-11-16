@@ -253,8 +253,10 @@ window.updateServings = function() {
     const servingsInput = document.getElementById('servingsInput');
     if (!servingsInput) return;
     
-    const newServings = Math.max(1, parseInt(servingsInput.value) || 1);
-    servingsInput.value = newServings; // Ensure valid value is displayed
+    const newServings = parseInt(servingsInput.value);
+    
+    // Don't process if empty or invalid (allow user to clear field while typing)
+    if (!newServings || newServings < 1) return;
     
     // Scale all ingredient quantities
     const ingredientsList = document.querySelector('article ul');
@@ -312,5 +314,58 @@ document.addEventListener('DOMContentLoaded', function() {
     const servingsInput = document.getElementById('servingsInput');
     if (servingsInput && window.originalServings) {
         servingsInput.value = window.originalServings;
+        
+        // Add blur handler to ensure valid value when user leaves the field
+        servingsInput.addEventListener('blur', function() {
+            const value = parseInt(this.value);
+            if (!value || value < 1) {
+                this.value = window.originalServings || 1;
+                window.updateServings();
+            }
+        });
+    }
+    
+    // Hide filters on mobile by default
+    const filterSection = document.querySelector('.filter-section');
+    const tagSection = document.querySelector('.tag-filters');
+    
+    if (filterSection || tagSection) {
+        // Check if we're on mobile (viewport width < 768px)
+        const isMobile = window.innerWidth < 768;
+        
+        if (isMobile) {
+            // Create toggle button
+            const toggleBtn = document.createElement('button');
+            toggleBtn.className = 'filter-toggle';
+            toggleBtn.textContent = 'Show Filters';
+            toggleBtn.setAttribute('aria-expanded', 'false');
+            
+            // Insert button before filters
+            const filterContainer = document.querySelector('.filter-section, .tag-filters');
+            if (filterContainer && filterContainer.parentNode) {
+                filterContainer.parentNode.insertBefore(toggleBtn, filterContainer);
+                
+                // Hide filters initially
+                if (filterSection) filterSection.style.display = 'none';
+                if (tagSection) tagSection.style.display = 'none';
+                
+                // Toggle functionality
+                toggleBtn.addEventListener('click', function() {
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    
+                    if (isExpanded) {
+                        if (filterSection) filterSection.style.display = 'none';
+                        if (tagSection) tagSection.style.display = 'none';
+                        this.textContent = 'Show Filters';
+                        this.setAttribute('aria-expanded', 'false');
+                    } else {
+                        if (filterSection) filterSection.style.display = 'block';
+                        if (tagSection) tagSection.style.display = 'block';
+                        this.textContent = 'Hide Filters';
+                        this.setAttribute('aria-expanded', 'true');
+                    }
+                });
+            }
+        }
     }
 });
