@@ -325,47 +325,47 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Hide filters on mobile by default
-    const filterSection = document.querySelector('.filter-section');
-    const tagSection = document.querySelector('.tag-filters');
+    // Filter toggle functionality for all screen sizes
+    const filterRanges = document.querySelector('.filter-ranges');
+    const tagFiltersContainer = document.querySelector('.tag-filters-container');
     
-    if (filterSection || tagSection) {
-        // Check if we're on mobile (viewport width < 768px)
+    if (filterRanges || tagFiltersContainer) {
+        // Check if mobile
         const isMobile = window.innerWidth < 768;
         
-        if (isMobile) {
-            // Create toggle button
-            const toggleBtn = document.createElement('button');
-            toggleBtn.className = 'filter-toggle';
-            toggleBtn.textContent = 'Show Filters';
-            toggleBtn.setAttribute('aria-expanded', 'false');
+        // Create toggle button
+        const toggleBtn = document.createElement('button');
+        toggleBtn.className = 'filter-toggle';
+        toggleBtn.textContent = isMobile ? 'Show Filters' : 'Hide Filters';
+        toggleBtn.setAttribute('aria-expanded', isMobile ? 'false' : 'true');
+        
+        // Insert button before the first filter section
+        const firstFilterSection = filterRanges || tagFiltersContainer;
+        if (firstFilterSection && firstFilterSection.parentNode) {
+            firstFilterSection.parentNode.insertBefore(toggleBtn, firstFilterSection);
             
-            // Insert button before filters
-            const filterContainer = document.querySelector('.filter-section, .tag-filters');
-            if (filterContainer && filterContainer.parentNode) {
-                filterContainer.parentNode.insertBefore(toggleBtn, filterContainer);
-                
-                // Hide filters initially
-                if (filterSection) filterSection.style.display = 'none';
-                if (tagSection) tagSection.style.display = 'none';
-                
-                // Toggle functionality
-                toggleBtn.addEventListener('click', function() {
-                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
-                    
-                    if (isExpanded) {
-                        if (filterSection) filterSection.style.display = 'none';
-                        if (tagSection) tagSection.style.display = 'none';
-                        this.textContent = 'Show Filters';
-                        this.setAttribute('aria-expanded', 'false');
-                    } else {
-                        if (filterSection) filterSection.style.display = 'block';
-                        if (tagSection) tagSection.style.display = 'block';
-                        this.textContent = 'Hide Filters';
-                        this.setAttribute('aria-expanded', 'true');
-                    }
-                });
+            // Hide filters initially on mobile
+            if (isMobile) {
+                if (filterRanges) filterRanges.style.display = 'none';
+                if (tagFiltersContainer) tagFiltersContainer.style.display = 'none';
             }
+            
+            // Toggle functionality
+            toggleBtn.addEventListener('click', function() {
+                const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                
+                if (isExpanded) {
+                    if (filterRanges) filterRanges.style.display = 'none';
+                    if (tagFiltersContainer) tagFiltersContainer.style.display = 'none';
+                    this.textContent = 'Show Filters';
+                    this.setAttribute('aria-expanded', 'false');
+                } else {
+                    if (filterRanges) filterRanges.style.display = 'flex';
+                    if (tagFiltersContainer) tagFiltersContainer.style.display = 'block';
+                    this.textContent = 'Hide Filters';
+                    this.setAttribute('aria-expanded', 'true');
+                }
+            });
         }
     }
 });
