@@ -1,11 +1,11 @@
-name: Rebase deploy
+name: sync deploy
 on:
   schedule:
     - cron: '0 0 */3 * *'  # Every 3 days at midnight
   workflow_dispatch:       # Allows manual trigger
 jobs:
   build:
-    name: Rebase branch deploy on main
+    name: sync branch deploy to main
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
